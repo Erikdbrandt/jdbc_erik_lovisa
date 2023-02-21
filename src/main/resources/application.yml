@@ -1,1 +1,15 @@
-
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Chinook
+    username: postgres
+    password: superuser
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update # Change to "create" for first time use to generate database schema then change to "update"
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  main:
+    allow-bean-definition-overriding: true # If you want to allow overriding of beans
