@@ -2,6 +2,7 @@ package el.jdbc_erik_lovisa;
 
 import el.jdbc_erik_lovisa.models.CustomerCountry;
 import el.jdbc_erik_lovisa.models.CustomerSpender;
+import el.jdbc_erik_lovisa.models.CustomerGenre;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -211,6 +212,53 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+
+    @Override
+    public List<CustomerGenre> findTopGenreByCustomer(int customerId) {
+        String sql = """
+                SELECT g.name AS genre_name, COUNT(*) AS invoice_count
+                FROM customer c
+                INNER JOIN invoice i ON c.customer_id = i.customer_id
+                INNER JOIN invoice_line il ON i.invoice_id = il.invoice_id
+                INNER JOIN track t ON il.track_id = t.track_id
+                INNER JOIN genre g ON t.genre_id = g.genre_id
+                WHERE c.customer_id = ?
+                GROUP BY g.name
+                HAVING COUNT(*) = (
+                  SELECT COUNT(*)
+                  FROM customer c
+                  INNER JOIN invoice i ON c.customer_id = i.customer_id
+                  INNER JOIN invoice_line il ON i.invoice_id = il.invoice_id
+                  INNER JOIN track t ON il.track_id = t.track_id
+                  INNER JOIN genre g ON t.genre_id = g.genre_id
+                  WHERE c.customer_id = ?
+                  GROUP BY g.name
+                  ORDER BY COUNT(*) DESC
+                  LIMIT 1
+                )
+                ORDER BY invoice_count DESC;""";
+
+
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, customerId);
+            statement.setInt(2, customerId);
+            ResultSet result = statement.executeQuery();
+            List<CustomerGenre> customerGenres = new ArrayList<>();
+            while (result.next()) {
+                customerGenres.add(new CustomerGenre(
+                        result.getString("genre_name"),
+                        result.getInt("invoice_count")
+                ));
+            }
+            return customerGenres;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
