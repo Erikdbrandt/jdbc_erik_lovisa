@@ -18,7 +18,8 @@ public class ChinookAppRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
 
-        customerRepository.findAll().forEach(System.out::println);
+        //customerRepository.findAll().forEach(System.out::println);
+        System.out.println(customerRepository.findById(1));
 
     }
 
