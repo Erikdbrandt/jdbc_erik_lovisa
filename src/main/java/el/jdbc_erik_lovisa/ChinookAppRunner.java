@@ -19,7 +19,8 @@ public class ChinookAppRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) {
 
         //customerRepository.findAll().forEach(System.out::println);
-        System.out.println(customerRepository.findById(1));
+        //System.out.println(customerRepository.findById(1));
+        //customerRepository.findLimited(10, 0).forEach(System.out::println);
 
     }
 

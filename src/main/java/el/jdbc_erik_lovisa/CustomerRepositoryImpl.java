@@ -120,6 +120,43 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findLimited(int limit, int offset) {
+
+        /*
+         * Queries the database and returns a limited selection, a "page", with users back.
+         * Use the offset parameter to change where the query starts, begins at customer_id = 1.
+         * */
+
+        String sql = "SELECT * FROM customer ORDER BY customer_id LIMIT ? OFFSET ?";
+        List<Customer> customers = new ArrayList<>();
+
+        try(Connection conn = DriverManager.getConnection(url, username, password)) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            statement.setInt(1, limit);
+            statement.setInt(2, offset);
+
+            ResultSet result = statement.executeQuery();
+
+            while(result.next()) {
+                Customer customer = new Customer(
+                        result.getInt("customer_id"),
+                        result.getString("first_name"),
+                        result.getString("last_name"),
+                        result.getString("country"),
+                        result.getString("postal_code"),
+                        result.getString("phone"),
+                        result.getString("email"
+                        ));
+                customers.add(customer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
+    }
+
+    @Override
     public int insert(Customer object) {
         return 0;
     }
