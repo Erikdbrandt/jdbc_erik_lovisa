@@ -25,6 +25,10 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         this.password = password;
     }
 
+    /**
+     * This method finds all customers in the database
+     * @return List of all customers
+     */
     @Override
     public List<Customer> findAll() {
 
@@ -82,6 +86,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return null;
     }
 
+    /**
+     *
+     * @param name the name of the customer to search for
+     * @return a customer with the given name, or null if no customer is found
+     */
     @Override
     public Customer findByName(String name) {
 
@@ -165,6 +174,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return customers;
     }
 
+
+    /**
+     * This method inserts a new customer into the database
+     * @return a int with the number of rows affected or 0 if something went wrong
+     */
     @Override
     public int insert(Customer customer) {
 
@@ -187,10 +201,10 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return 0;
     }
 
-    /*
-     * This method returns the country with the most customers if there are multiple countries with the same amount of customers, it will return the first one in the list.
-     *
-     * */
+    /**
+     * This method returns the country with the most customers
+     * @return a CustomerCountry object
+     */
     @Override
     public CustomerCountry findCountryWithMostCustomers() {
         String sql =
@@ -216,6 +230,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
 
+    /**
+     *  This method returns the top 5 genres for a customer
+     * @param customerId the id of the customer
+     * @return a list of CustomerGenre objects
+     */
     @Override
     public List<CustomerGenre> findTopGenreByCustomer(int customerId) {
         String sql = """
