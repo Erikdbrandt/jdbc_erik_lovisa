@@ -26,9 +26,12 @@ public class ChinookAppRunner implements ApplicationRunner {
 
         //System.out.println(customerRepository.insert(new Customer("Pia", "Törnquist", "Sweden", "12345", "0701234567", "hanna.tornquist@gmail.com")));
 
-   customerRepository.findAll().forEach(System.out::println);
 
       //  System.out.println(customerRepository.findByName("Erik"));
+
+
+        customerRepository.update(new Customer(20,"John", "Doe", "Norway", "098766", "070 900 90 90", "john@doe.com"));
+        System.out.println(customerRepository.findById(20));
 
 
     }
