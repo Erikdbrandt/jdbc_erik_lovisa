@@ -28,11 +28,11 @@ public class ChinookAppRunner implements ApplicationRunner {
 
         //  customerRepository.findAll().forEach(System.out::println);
 
-        System.out.println(customerRepository.findCountryWithMostCustomers());
+        //System.out.println(customerRepository.findCountryWithMostCustomers());
 
       //  System.out.println(customerRepository.findByName("Erik"));
 
-
+        System.out.println(customerRepository.highestSpendingCustomer());
     }
 
 }

@@ -1,6 +1,7 @@
 package el.jdbc_erik_lovisa;
 
 import el.jdbc_erik_lovisa.models.CustomerCountry;
+import el.jdbc_erik_lovisa.models.CustomerSpender;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -205,6 +206,32 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 return new CustomerCountry(
                         result.getString("country"),
                         result.getInt("customer_count")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public CustomerSpender highestSpendingCustomer() {
+        String sql =
+                "SELECT c.customer_id, c.first_name, c.last_name, SUM(total) AS total_sum " +
+                        "FROM customer c " +
+                        "INNER JOIN invoice i ON c.customer_id = i.customer_id " +
+                        "GROUP BY c.customer_id, c.first_name " +
+                        "ORDER BY total_sum DESC ";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                return new CustomerSpender(
+                        result.getInt("customer_id"),
+                        result.getString("first_name"),
+                        result.getString("last_name"),
+                        result.getDouble("total_sum")
                 );
             }
         } catch (SQLException e) {
