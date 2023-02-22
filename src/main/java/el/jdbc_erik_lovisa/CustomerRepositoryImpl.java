@@ -78,6 +78,48 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
+    public Customer findByName(String name) {
+
+        /*
+        * using the LIKE operator to also find customers with names that start with the search string
+        * I'm checking for both first and last name
+        * */
+
+        String sql = "SELECT * FROM customer WHERE first_name LIKE ? OR last_name LIKE ?";
+
+        try(Connection conn = DriverManager.getConnection(url,username,password)) {
+
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            statement.setString(1, name + "%");
+            statement.setString(2, name + "%");
+
+            ResultSet result = statement.executeQuery();
+
+            if(result.next()) {
+                return new Customer(
+                        result.getInt("customer_id"),
+                        result.getString("first_name"),
+                        result.getString("last_name"),
+                        result.getString("country"),
+                        result.getString("postal_code"),
+                        result.getString("phone"),
+                        result.getString("email")
+                );
+            }
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // If no customer is found, return null
+
+        System.out.println("No customer found with name: " + name);
+
+        return null;
+    }
+
+    @Override
     public int insert(Customer object) {
         return 0;
     }
