@@ -59,7 +59,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             statement.setInt(1, id);
             ResultSet result = statement.executeQuery();
             if(result.next()) {
-                return new Customer(
+                Customer customer = new Customer(
                         result.getInt("customer_id"),
                         result.getString("first_name"),
                         result.getString("last_name"),
@@ -68,6 +68,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                         result.getString("phone"),
                         result.getString("email")
                 );
+                return customer;
             }
         } catch(SQLException e) {
             e.printStackTrace();
