@@ -1,4 +1,4 @@
-package el.jdbc_erik_lovisa;
+package el.jdbc_erik_lovisa.repositories;
 
 import java.util.List;
 
