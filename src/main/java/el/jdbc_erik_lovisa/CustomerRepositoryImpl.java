@@ -1,5 +1,6 @@
 package el.jdbc_erik_lovisa;
 
+import el.jdbc_erik_lovisa.models.Customer;
 import el.jdbc_erik_lovisa.models.CustomerCountry;
 import el.jdbc_erik_lovisa.models.CustomerSpender;
 import el.jdbc_erik_lovisa.models.CustomerGenre;
@@ -16,6 +17,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     private final String username;
     private final String password;
 
+    /**
+     *
+     * @param url
+     * @param username
+     * @param password
+     */
     public CustomerRepositoryImpl(
             @Value("${spring.datasource.url}") String url,
             @Value("${spring.datasource.username}") String username,
@@ -28,13 +35,15 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     /**
      * This method finds all customers in the database
      * @return List of all customers
+     * @throws SQLException if a database access error occurs
      */
     @Override
     public List<Customer> findAll() {
 
         String sql =
-                        "SELECT * " +
-                        "FROM customer";
+                        """
+                        SELECT *  
+                        FROM customer""";
         List<Customer> customers = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             // Write statement
@@ -87,17 +96,16 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     /**
-     *
+     * Using the LIKE operator to also find customers with names that start with the search string
+     * We're checking for both first and last name
      * @param name the name of the customer to search for
      * @return a customer with the given name, or null if no customer is found
+     * @exception SQLException if a database access error occurs
      */
     @Override
     public Customer findByName(String name) {
 
-        /*
-         * using the LIKE operator to also find customers with names that start with the search string
-         * I'm checking for both first and last name
-         * */
+
 
         String sql =
                         "SELECT * " +
@@ -129,8 +137,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        // If no customer is found, return null
 
         System.out.println("No customer found with name: " + name);
 
@@ -178,6 +184,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     /**
      * This method inserts a new customer into the database
      * @return a int with the number of rows affected or 0 if something went wrong
+     * @exception SQLException if a database access error occurs
      */
     @Override
     public int insert(Customer customer) {
@@ -203,7 +210,8 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     /**
      * This method returns the country with the most customers
-     * @return a CustomerCountry object
+     * @return a CustomerCountry object with the country and the number of customers
+     * @exception SQLException if a database access error occurs
      */
     @Override
     public CustomerCountry findCountryWithMostCustomers() {
@@ -234,6 +242,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
      *  This method returns the top 5 genres for a customer
      * @param customerId the id of the customer
      * @return a list of CustomerGenre objects
+     * @exception SQLException if a database access error occurs
      */
     @Override
     public List<CustomerGenre> findTopGenreByCustomer(int customerId) {

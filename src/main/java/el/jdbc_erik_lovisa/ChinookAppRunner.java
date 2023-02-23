@@ -31,7 +31,8 @@ public class ChinookAppRunner implements ApplicationRunner {
 //        System.out.println(customerRepository.findCountryWithMostCustomers());
 
 
-       System.out.println(customerRepository.findTopGenreByCustomer(12));
+
+        customerRepository.findAll().forEach(System.out::println);
 
         //  System.out.println(customerRepository.findByName("Erik"));
 

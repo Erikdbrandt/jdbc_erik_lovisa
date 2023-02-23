@@ -1,5 +1,6 @@
 package el.jdbc_erik_lovisa;
 
+import el.jdbc_erik_lovisa.models.Customer;
 import el.jdbc_erik_lovisa.models.CustomerCountry;
 import el.jdbc_erik_lovisa.models.CustomerGenre;
 import el.jdbc_erik_lovisa.models.CustomerSpender;
