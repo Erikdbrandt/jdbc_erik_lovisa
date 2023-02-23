@@ -56,6 +56,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return customers;
     }
 
+    /**
+     * Read a specific customer from the database by ID.
+     * @param id This is the customer_id that is used to find the specific customer.
+     * @return This returns a Customer if found in the database, otherwise it will print
+     * "Found no customer with id: " + id and then return null.
+     */
     @Override
     public Customer findById(Integer id) {
         String sql = "SELECT * FROM customer WHERE customer_id = ?";
@@ -128,14 +134,16 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return null;
     }
 
+    /**
+     * Return a page of customers from the database. This should take in limit and offset as parameters and make use
+     * of the SQL limit and offset keywords to get a subset of the customer data. The customer model from above
+     * should be reused.
+     * @param limit This sets the limit in the SQL query on how many customers to display.
+     * @param offset This sets the offset of the SQL query, i.e. on which row to start. Begins at customer_id = 1.
+     * @return This returns a list, or "page", with the specified amount of customers from the desired starting point.
+     */
     @Override
     public List<Customer> findLimited(int limit, int offset) {
-
-        /*
-         * Queries the database and returns a limited selection, a "page", with users back.
-         * Use the offset parameter to change where the query starts, begins at customer_id = 1.
-         * */
-
         String sql = "SELECT * FROM customer ORDER BY customer_id LIMIT ? OFFSET ?";
         List<Customer> customers = new ArrayList<>();
 
@@ -262,6 +270,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return null;
     }
 
+    /**
+     * Customer who is the highest spender (total in invoice table is the largest.
+     * @return a CustomerSpender object containing the customer's id, first name, last name and a total of what
+     * they have spent.
+     */
     @Override
     public CustomerSpender highestSpendingCustomer() {
         String sql =
@@ -288,12 +301,13 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return null;
     }
 
+    /**
+     * Update an existing customer.
+     * @param customer A Customer object with the updated customer information.
+     * @return The updated Customer object.
+     */
     @Override
     public int update(Customer customer) {
-        /*
-         * Updating the entire user
-         * */
-
         String sql = "UPDATE customer SET first_name = ?, last_name = ?, country = ?, postal_code = ?, phone = ?, email =? WHERE customer_id = ?";
 
         try(Connection conn = DriverManager.getConnection(url, username, password)) {
