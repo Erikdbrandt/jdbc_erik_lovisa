@@ -191,6 +191,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     /**
      * This method inserts a new customer into the database
+     * @param customer the customer to insert
      * @return a int with the number of rows affected or 0 if something went wrong
      * @exception SQLException if a database access error occurs
      */
