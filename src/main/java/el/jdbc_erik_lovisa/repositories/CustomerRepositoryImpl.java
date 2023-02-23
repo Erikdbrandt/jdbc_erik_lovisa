@@ -1,4 +1,4 @@
-package el.jdbc_erik_lovisa;
+package el.jdbc_erik_lovisa.repositories;
 
 import el.jdbc_erik_lovisa.models.Customer;
 import el.jdbc_erik_lovisa.models.CustomerCountry;

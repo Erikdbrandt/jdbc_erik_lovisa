@@ -1,5 +1,6 @@
 package el.jdbc_erik_lovisa;
 
+import el.jdbc_erik_lovisa.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
