@@ -110,9 +110,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
      */
     @Override
     public Customer findByName(String name) {
-
-
-
         String sql =
                         "SELECT * " +
                         "FROM customer " +
